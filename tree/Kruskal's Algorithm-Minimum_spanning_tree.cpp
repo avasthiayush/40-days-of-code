@@ -10,7 +10,7 @@ typedef long long ll;
 using namespace std;
 const int MAX = 1e4 + 5;
 int id[MAX],size[MAX], nodes, edges;
-pair <long long, pair<int, int> > p[MAX];
+vector<pair <long long, pair<long long , long long >>> p;
 
 void initialize()
 {
@@ -35,14 +35,14 @@ void union1(long long  x, long long  y)
      id[q] = p;
      size[p] += size[q];
     
-    id[p] = id[q];
+   // id[p] = id[q];
 }
 
-long long kruskal(pair<long long, pair<int, int> > p[])
+long long kruskal()
 {
     long long  x, y;
     long long cost, minimumCost = 0;
-    for(int i = 0;i < edges;++i)
+    for(long long  i = 0;i < edges;++i)
     {
         // Selecting edges one by one in increasing order from the beginning
         x = p[i].second.first;
@@ -67,11 +67,11 @@ int main()
     for(int i = 0;i < edges;++i)
     {
         cin >> x >> y >> weight;
-        p[i] = make_pair(weight, make_pair(x, y));
+        p.push_back({weight,{x,y}});
     }
     // Sort the edges in the ascending order
-    sort(p, p + edges);
-    minimumCost = kruskal(p);
+    sort(p.begin(), p.end());
+    minimumCost = kruskal();
     cout << minimumCost << endl;
     return 0;
 }

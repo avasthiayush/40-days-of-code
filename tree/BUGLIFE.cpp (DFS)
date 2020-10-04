@@ -1,0 +1,83 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pb push_back
+#define lb lower_bound
+#define ub upper_bound
+#define bs binary_search
+#define F first
+#define S second
+#define all(v) v.begin(), v.end()
+
+vector<ll> adj[2005], color(2005);
+bool vis[2005];
+
+bool dfs(ll s)
+{
+    for (auto i : adj[s])
+    {
+        if (!vis[i])
+        {
+            vis[i] = true;
+            color[i] = 1 - color[s];
+            if (dfs(i))
+                return true;
+        }
+        else if (color[i] == color[s])
+            return true;
+    }
+    return false;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+
+    ll t = 1, tc;
+    cin >> t;
+    for (tc = 1; tc <= t; tc++)
+    {
+        ll n, x, i, j, u, v, f, c;
+        cin >> n >> x;
+        for (i = 0; i < 2005; i++)
+        {
+            adj[i].clear();
+            vis[i] = false;
+        }
+        color.clear();
+        for (i = 0; i < x; i++)
+        {
+            cin >> u >> v;
+            adj[u].pb(v);
+            adj[v].pb(u);
+        }
+        for (i = 1; i <= n; i++)
+        {
+            f = 0;
+            if (!vis[i])
+            {
+                vis[i] = true;
+                color[i] = 0;
+                if (dfs(i))
+                {
+                    f = 1;
+                    break;
+                }
+            }
+        }
+        cout << "Scenario #" << tc << ":\n";
+        if (f)
+            cout << "Suspicious bugs found!\n";
+        else
+            cout << "No suspicious bugs found!\n";
+    }
+    return 0;
+}
